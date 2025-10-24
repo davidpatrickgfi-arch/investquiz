@@ -1,0 +1,250 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Death on the Nile: The IUL Enigma</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient (135deg, #0ale3c, #4a2c6f);
+      background-size: cover;
+      background-attachment: fixed;
+      color: #2d2320;
+    }
+    .nile-card {
+      background: rgba(255, 245, 230, 0.97);
+      border: 3px solid #b89778;
+      box-shadow: 0 0 20px rgba(184, 151, 120, 0.5);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .nile-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 12px;
+      background: linear-gradient(to right, #b89778, #d4a017, #b89778);
+    }
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+    .progress {
+      height: 100%;
+      background: #d4a017;
+      border-radius: 6px;
+      width: 0;
+      transition: width 0.3s;
+    }
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-enter-from, .fade-leave-to {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .header {
+      background: linear-gradient(to bottom, #1e3a8a, #172554);
+      border-bottom: 5px solid #b89778;
+      color: #fff8e1;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    .header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .footer {
+      background: linear-gradient(to top, #1e3a8a, #172554);
+      border-top: 5px solid #b89778;
+      color: #fff8e1;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .button {
+      font-family: 'Cinzel', serif;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      border-radius: 8px;
+    }
+    .button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .question-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #2d2320;
+    }
+    .option-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .option-card:hover {
+      background: #f3f4f6;
+    }
+    .option-card input[type="radio"] {
+      display: none;
+    }
+    .option-card input[type="radio"]:checked + label {
+      background: #d4a017;
+      color: white;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <div id="app" class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="header">
+      <div class="container mx-auto px-4">
+        <h1>Death on the Nile: The IUL Enigma</h1>
+        <p class="mt-2 text-lg">Uncover the Financial Secrets Aboard the S.S. Karnak</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 flex-grow">
+      <transition name="fade">
+        <section v-if="currentQuestion !== null" class="nile-card">
+          <div class="progress-bar">
+            <div class="progress" :style="{ width: `${(currentQuestion + 1) * 33.33}%` }"></div>
+          </div>
+          <h2 class="text-xl md:text-2xl font-bold mb-2 text-yellow-900">What is your financial clue?</h2>
+          <p class="text-gray-800 mb-6 text-sm md:text-base">Your answer may unlock deeper insights into IUL Cash Value.</p>
+          <h3 class="text-lg md:text-xl font-semibold question-text mb-6">{{ questions[currentQuestion].text }}</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div v-for="(option, index) in questions[currentQuestion].options" :key="index" class="option-card">
+              <input
+                type="radio"
+                :id="'option-' + currentQuestion + '-' + index"
+                :name="'question-' + currentQuestion"
+                :value="option"
+                v-model="answers[currentQuestion]"
+              >
+              <label :for="'option-' + currentQuestion + '-' + index" class="flex flex-col items-center">
+                <i v-if="index === 0" class="fas fa-money-bill-wave text-yellow-600 text-2xl mb-2"></i>
+                <i v-if="index === 1" class="fas fa-user-tie text-yellow-600 text-2xl mb-2"></i>
+                <i v-if="index === 2" class="fas fa-shield-alt text-yellow-600 text-2xl mb-2"></i>
+                <i v-if="index === 3" class="fas fa-search text-yellow-600 text-2xl mb-2"></i>
+                <span class="text-gray-800 text-sm md:text-base">{{ option }}</span>
+              </label>
+            </div>
+          </div>
+          <transition name="fade">
+            <p
+              v-if="showAnswers && answers[currentQuestion]"
+              class="mt-4 text-base md:text-lg"
+              :class="answers[currentQuestion] === questions[currentQuestion].correct ? 'text-green-800' : 'text-red-800'"
+            >
+              {{ answers[currentQuestion] === questions[currentQuestion].correct ? 'Enigma Solved! Correct!' : `Enigma Persists. The correct answer is: ${questions[currentQuestion].correct}` }}
+            </p>
+          </transition>
+          <div class="mt-8 flex justify-between">
+            <button
+              v-if="currentQuestion > 0"
+              @click="currentQuestion--"
+              class="button bg-blue-800 text-white px-5 py-3 text-sm md:text-base hover:bg-blue-700"
+            >
+              Previous Clue
+            </button>
+            <button
+              @click="toggleAnswers"
+              class="button bg-yellow-800 text-white px-5 py-3 text-sm md:text-base hover:bg-yellow-700"
+            >
+              {{ showAnswers ? 'Conceal Findings' : 'Reveal Findings' }}
+            </button>
+            <button
+              v-if="currentQuestion < questions.length - 1"
+              @click="currentQuestion++"
+              class="button bg-blue-800 text-white px-5 py-3 text-sm md:text-base hover:bg-blue-700"
+            >
+              Next Clue
+            </button>
+          </div>
+        </section>
+        <section v-else class="nile-card text-center">
+          <h2 class="text-2xl md:text-3xl font-bold mb-4 text-yellow-900">Mystery Resolved</h2>
+          <p class="text-gray-800 text-lg">You’ve unraveled all the secrets aboard the S.S. Karnak. Dare to embark on another voyage of discovery?</p>
+          <button
+            @click="resetInvestigation"
+            class="button mt-6 bg-yellow-800 text-white px-5 py-3 text-sm md:text-base hover:bg-yellow-700"
+          >
+            New Voyage
+          </button>
+        </section>
+      </transition>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container mx-auto px-4">
+        <p>&copy; 2025 Death on the Nile: The IUL Enigma. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          questions: [
+            {
+              text: 'What is the primary function of cash value in an IUL policy?',
+              options: ['Pays the premium', 'Acts as a savings component', 'Covers taxes', 'Funds the death benefit only'],
+              correct: 'Acts as a savings component'
+            },
+            {
+              text: 'How is the cash value in an IUL typically invested?',
+              options: ['Fixed interest rate', 'Stock market directly', 'Index-based strategy', 'Bonds only'],
+              correct: 'Index-based strategy'
+            },
+            {
+              text: 'What is a key benefit of IUL cash value growth?',
+              options: ['Guaranteed returns', 'Tax-deferred growth', 'High risk exposure', 'Fixed maturity date'],
+              correct: 'Tax-deferred growth'
+            }
+          ],
+          answers: ['', '', ''],
+          currentQuestion: 0,
+          showAnswers: false
+        };
+      },
+      methods: {
+        toggleAnswers() {
+          this.showAnswers = !this.showAnswers;
+        },
+        resetInvestigation() {
+          this.answers = ['', '', ''];
+          this.currentQuestion = 0;
+          this.showAnswers = false;
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
