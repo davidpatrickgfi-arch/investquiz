@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <style>
     body {
       font-family: 'Playfair Display', serif;
-      background-image: url('https://images.unsplash.com/photo-1513329048275-8a7e47c28e7f?auto=format&fit=crop&w=1920&q=80');
+      background: linear-gradient(135deg, #0a1e3c, #4a2c6f);
       background-size: cover;
       background-attachment: fixed;
       color: #2d2320;
@@ -154,13 +154,20 @@
             </div>
           </div>
           <transition name="fade">
-            <p
-              v-if="showAnswers && answers[currentQuestion]"
-              class="mt-4 text-base md:text-lg"
-              :class="answers[currentQuestion] === questions[currentQuestion].correct ? 'text-green-800' : 'text-red-800'"
-            >
-              {{ answers[currentQuestion] === questions[currentQuestion].correct ? 'Enigma Solved! Correct!' : `Enigma Persists. The correct answer is: ${questions[currentQuestion].correct}` }}
-            </p>
+            <div v-if="showAnswers && answers[currentQuestion]" class="mt-4">
+              <p
+                v-if="answers[currentQuestion] === questions[currentQuestion].correct"
+                class="text-base md:text-lg text-green-800"
+              >
+                Level 2 Achieved! Ask me about reaching Level 3...
+              </p>
+              <p
+                v-else
+                class="text-base md:text-lg text-red-800"
+              >
+                Enigma Persists. The correct answer is: {{ questions[currentQuestion].correct }}
+              </p>
+            </div>
           </transition>
           <div class="mt-8 flex justify-between">
             <button
