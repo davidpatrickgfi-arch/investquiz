@@ -11,10 +11,13 @@
   <style>
     body {
       font-family: 'Playfair Display', serif;
-      background: linear-gradient(135deg, #0a1e3c, #4a2c6f);
+      background: linear-gradient(135deg, #1e3a8a, #5c4033, #b89778);
       background-size: cover;
       background-attachment: fixed;
       color: #2d2320;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     .nile-card {
       background: rgba(255, 245, 230, 0.97);
@@ -63,6 +66,11 @@
       color: #fff8e1;
       padding: 2rem 1rem;
       text-align: center;
+      background-image: url('https://images.unsplash.com/photo-1516483638261-f43cb1e6e8d4?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: overlay;
+      background-color: rgba(30, 58, 138, 0.8);
     }
     .header h1 {
       font-family: 'Cinzel', serif;
@@ -76,6 +84,11 @@
       color: #fff8e1;
       padding: 1.5rem;
       text-align: center;
+      background-image: url('https://images.unsplash.com/photo-1516483638261-f43cb1e6e8d4?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: bottom;
+      background-blend-mode: overlay;
+      background-color: rgba(30, 58, 138, 0.8);
     }
     .button {
       font-family: 'Cinzel', serif;
@@ -159,7 +172,7 @@
                 v-if="answers[currentQuestion] === questions[currentQuestion].correct"
                 class="text-base md:text-lg text-green-800"
               >
-                Level 2 Achieved! Ask me about reaching Level 3...
+                Level 2 Achieved! How can you reach Level 3?
               </p>
               <p
                 v-else
